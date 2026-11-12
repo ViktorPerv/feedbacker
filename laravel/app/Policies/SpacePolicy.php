@@ -9,10 +9,10 @@ use App\Models\Space;
 use App\Models\User;
 
 /**
- * Authorisation for spaces.
+ * Авторизация действий с пространствами.
  *
- * Ownership covers the everyday case. The `.any` permissions add cross-account
- * oversight on top, and are held by the `admin` role only.
+ * Владение покрывает обычные действия. Разрешения `.any` добавляют управление
+ * чужими пространствами и принадлежат только роли `admin`.
  */
 class SpacePolicy
 {
@@ -45,7 +45,7 @@ class SpacePolicy
     }
 
     /**
-     * Who may read and act on the moderation inbox for this space.
+     * Определяет доступ к очереди модерации пространства.
      */
     public function moderateTestimonials(User $user, Space $space): bool
     {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Models\Language;
-use App\Models\Translation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -17,11 +16,10 @@ class TranslationRequest extends FormRequest
     }
 
     /**
-     * A translation's identity is its (locale, group, key) triple.
+     * Перевод однозначно определяется тройкой (locale, group, key).
      *
-     * That triple is only chosen when the entry is created. An edit rewrites
-     * the wording and nothing else, so there is no identity left to check for
-     * uniqueness — and no way for an edit to collide with another row.
+     * Эта тройка задаётся только при создании. При редактировании меняется лишь
+     * текст, поэтому повторная проверка уникальности не требуется.
      */
     private function isEdit(): bool
     {
@@ -81,7 +79,7 @@ class TranslationRequest extends FormRequest
     }
 
     /**
-     * The attributes for a new entry.
+     * Возвращает атрибуты новой записи.
      *
      * @return array<string, mixed>
      */

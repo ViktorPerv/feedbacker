@@ -10,10 +10,9 @@ use App\Support\Uploads;
 use Illuminate\Http\RedirectResponse;
 
 /**
- * Logo upload for a space's collection page and widgets.
+ * Загрузка логотипа для страницы сбора отзывов и виджетов пространства.
  *
- * The stored value stays a URL, so a pasted link and an upload are
- * interchangeable — the branding form offers both.
+ * Сохраняется URL, поэтому вставленная ссылка и загруженный файл взаимозаменяемы.
  */
 class SpaceLogoController extends Controller
 {

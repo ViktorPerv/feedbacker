@@ -8,12 +8,11 @@ use App\Models\Language;
 use Illuminate\Database\Seeder;
 
 /**
- * The locales the application ships with.
+ * Языки, поставляемые с приложением.
  *
- * Called from the migration *and* from the test fixture seeder, because the
- * test database is cloned from a schema-only dump — reference data inserted by
- * a migration never reaches it, and without this the middleware would find no
- * supported locale at all.
+ * Вызывается из миграции и наполнителя тестовых данных, поскольку тестовая БД
+ * клонируется из дампа одной схемы. Без повторного заполнения посредник не
+ * найдёт ни одного поддерживаемого языка.
  */
 class LanguageSeeder extends Seeder
 {

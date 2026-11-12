@@ -31,7 +31,7 @@ class TestimonialClickFactory extends Factory
     }
 
     /**
-     * Place the click at a specific moment.
+     * Устанавливает для клика указанное время.
      */
     public function at(DateTimeInterface $moment): static
     {

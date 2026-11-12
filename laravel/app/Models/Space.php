@@ -7,13 +7,31 @@ namespace App\Models;
 use App\Enums\TestimonialStatusEnum;
 use Database\Factories\SpaceFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Carbon;
 
+/**
+ * Пространство пользователя для сбора и публикации отзывов.
+ *
+ * @property string $id
+ * @property int $user_id
+ * @property string $slug
+ * @property string $name
+ * @property string|null $custom_domain
+ * @property bool $is_active
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read User $user
+ * @property-read SpaceBranding|null $branding
+ * @property-read Collection<int, Testimonial> $testimonials
+ * @property-read Collection<int, Widget> $widgets
+ */
 #[Fillable(['name', 'slug', 'custom_domain', 'is_active'])]
 class Space extends Model
 {
@@ -21,7 +39,7 @@ class Space extends Model
     use HasFactory, HasUuids;
 
     /**
-     * Get the attributes that should be cast.
+     * Возвращает преобразования атрибутов модели.
      *
      * @return array<string, string>
      */
@@ -33,7 +51,7 @@ class Space extends Model
     }
 
     /**
-     * Route model binding uses the public slug instead of the UUID.
+     * Использует публичный slug вместо UUID для привязки модели маршрута.
      */
     public function getRouteKeyName(): string
     {
@@ -61,7 +79,7 @@ class Space extends Model
     }
 
     /**
-     * Testimonials that may be shown on the public wall.
+     * Возвращает отзывы, доступные для показа на публичной стене.
      */
     public function approvedTestimonials(): HasMany
     {
@@ -70,7 +88,7 @@ class Space extends Model
     }
 
     /**
-     * Branding for this space, falling back to an unsaved default instance.
+     * Возвращает оформление пространства или несохранённый экземпляр по умолчанию.
      */
     public function brandingOrDefault(): SpaceBranding
     {
@@ -84,7 +102,7 @@ class Space extends Model
     }
 
     /**
-     * The public collection URL for this space.
+     * Возвращает публичный URL страницы сбора отзывов.
      */
     public function collectionUrl(): string
     {
@@ -92,7 +110,7 @@ class Space extends Model
     }
 
     /**
-     * Every space gets a branding record so the collection page always renders.
+     * Создаёт оформление для каждого пространства, чтобы страница всегда отображалась.
      */
     protected static function booted(): void
     {

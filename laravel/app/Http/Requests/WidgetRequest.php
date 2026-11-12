@@ -9,10 +9,10 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * Validation for creating and editing a widget.
+ * Валидация создания и редактирования виджета.
  *
- * The configuration is a small, fixed set of options rather than a free-form
- * blob, so the database can never hold a value the renderer does not expect.
+ * Конфигурация содержит небольшой фиксированный набор параметров, поэтому в БД
+ * не могут попасть значения, которых не ожидает средство отображения.
  */
 class WidgetRequest extends FormRequest
 {
@@ -77,8 +77,8 @@ class WidgetRequest extends FormRequest
     }
 
     /**
-     * The configuration as it should be stored, with the layout's defaults
-     * filling anything the form did not send.
+     * Возвращает конфигурацию для сохранения, дополняя отсутствующие значения
+     * настройками макета по умолчанию.
      *
      * @return array<string, mixed>
      */

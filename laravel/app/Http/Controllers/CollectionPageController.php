@@ -16,7 +16,7 @@ use Inertia\Response;
 use Throwable;
 
 /**
- * The public, unauthenticated testimonial collection page.
+ * Публичная страница сбора отзывов, доступная без аутентификации.
  */
 class CollectionPageController extends Controller
 {
@@ -62,6 +62,7 @@ class CollectionPageController extends Controller
                 ->with('success', $space->brandingOrDefault()->thank_you_message);
         }
 
+        /** @var Testimonial $testimonial */
         $testimonial = $space->testimonials()->create([
             ...$request->testimonialData(),
             'status' => TestimonialStatusEnum::Pending,
@@ -76,10 +77,10 @@ class CollectionPageController extends Controller
     }
 
     /**
-     * Queue a heads-up to the space owner.
+     * Ставит уведомление владельца пространства в очередь.
      *
-     * Wrapped in a guard because a submission must succeed even if the
-     * notification cannot be dispatched.
+     * Ошибка отправки уведомления перехватывается, поскольку она не должна
+     * мешать успешному сохранению отзыва.
      */
     private function notifyOwner(Testimonial $testimonial): void
     {

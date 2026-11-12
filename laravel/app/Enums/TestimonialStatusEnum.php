@@ -6,13 +6,13 @@ namespace App\Enums;
 
 enum TestimonialStatusEnum: string
 {
-    /** Submitted through the public collection page, awaiting moderation. */
+    /** Отправлен с публичной страницы и ожидает модерации. */
     case Pending = 'pending';
 
-    /** Visible on the public wall. */
+    /** Отображается на публичной стене. */
     case Approved = 'approved';
 
-    /** Hidden from the public wall. */
+    /** Скрыт с публичной стены. */
     case Rejected = 'rejected';
 
     public function label(): string
@@ -25,7 +25,7 @@ enum TestimonialStatusEnum: string
     }
 
     /**
-     * Whether testimonials in this state may be shown publicly.
+     * Определяет, можно ли публично показывать отзыв в этом статусе.
      */
     public function isPublic(): bool
     {

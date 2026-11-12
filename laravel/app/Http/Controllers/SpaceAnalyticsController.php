@@ -11,10 +11,10 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 /**
- * Embed performance for a single space.
+ * Показатели встраиваемых виджетов одного пространства.
  *
- * Read-only: the numbers are produced by the Go widget service and aggregated
- * on the fly, so there is nothing to write back.
+ * Только чтение: данные создаёт сервис виджетов на Go, а приложение агрегирует
+ * их на лету, поэтому сохранять результат не требуется.
  */
 class SpaceAnalyticsController extends Controller
 {

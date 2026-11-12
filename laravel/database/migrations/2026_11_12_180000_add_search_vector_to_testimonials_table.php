@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Full-text search over testimonials.
+ * Полнотекстовый поиск по отзывам.
  *
- * A generated column rather than a trigger or an application-maintained
- * column: PostgreSQL recomputes it on every write, so it can never drift from
- * the row it describes.
+ * Используется вычисляемый столбец вместо триггера или поддержки приложением:
+ * PostgreSQL пересчитывает его при каждой записи, поэтому значение всегда
+ * соответствует исходной строке.
  *
- * The `simple` configuration is deliberate. `english` would stem English
- * words but treat Russian ones as opaque tokens; `simple` only lowercases, so
- * every language behaves the same. Prefix matching (`term:*`) covers the
- * stemming people actually notice — searching "embed" finds "embeds".
+ * Конфигурация `simple` выбрана намеренно. `english` выделяет основы английских
+ * слов, но не русских, а `simple` только меняет регистр и одинаково работает со
+ * всеми языками. Префиксный поиск (`term:*`) покрывает заметные пользователю
+ * варианты слов.
  */
 return new class extends Migration
 {

@@ -6,14 +6,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * A locale the application can be displayed in.
+ * Язык, на котором может отображаться приложение.
  *
- * Read on every request by the SetLocale middleware, so the list is cached and
- * invalidated on write rather than queried each time.
+ * Список читается посредником SetLocale при каждом запросе, поэтому он
+ * кешируется и сбрасывается при изменении вместо повторного запроса к БД.
+ *
+ * @property int $id
+ * @property string $code
+ * @property string $name
+ * @property string $native_name
+ * @property bool $is_active
+ * @property bool $is_default
+ * @property int $sort_order
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class Language extends Model
 {
@@ -69,17 +80,16 @@ class Language extends Model
     }
 
     /**
-     * Every language, active or not.
+     * Возвращает все языки, включая неактивные.
      *
-     * Plain arrays are cached, not models. The cache store serialises what it
-     * is given, and handing it an Eloquent collection couples the cached
-     * payload to the class graph: a client-side serializer setting or a stale
-     * entry turns the read into `__PHP_Incomplete_Class` and the whole request
-     * fails. Arrays survive any of that.
+     * Кешируются обычные массивы, а не модели. Хранилище кеша сериализует
+     * переданное значение, а коллекция Eloquent связывает кеш с графом классов:
+     * настройка сериализатора или устаревшая запись может превратить результат
+     * в `__PHP_Incomplete_Class` и нарушить весь запрос. Массивы этого избегают.
      *
-     * A short TTL rather than forever: a mass update (`Language::where(...)
-     * ->update(...)`) bypasses model events and so bypasses the invalidation
-     * below, and a locale list that is a few minutes stale is harmless.
+     * Используется короткий TTL: массовое обновление (`Language::where(...)
+     * ->update(...)`) обходит события модели и сброс кеша, а устаревший на
+     * несколько минут список языков не создаёт проблем.
      *
      * @return Collection<int, self>
      */
@@ -103,7 +113,7 @@ class Language extends Model
     }
 
     /**
-     * Codes the application will accept, in display order.
+     * Возвращает допустимые коды языков в порядке отображения.
      *
      * @return array<int, string>
      */
@@ -128,7 +138,7 @@ class Language extends Model
     }
 
     /**
-     * The shape the frontend switcher needs.
+     * Возвращает данные в формате, необходимом переключателю языка.
      *
      * @return array<int, array<string, mixed>>
      */

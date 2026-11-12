@@ -9,7 +9,23 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * Настройки внешнего вида пространства.
+ *
+ * @property string $id
+ * @property string $space_id
+ * @property string|null $logo_url
+ * @property string $primary_color
+ * @property string $background_color
+ * @property string $font_family
+ * @property string $button_text
+ * @property string $thank_you_message
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Space $space
+ */
 #[Fillable([
     'space_id',
     'logo_url',

@@ -9,11 +9,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**
- * Language switcher.
+ * Переключатель языка.
  *
- * Deliberately unauthenticated so the public collection page can be read in
- * either language. A signed-in user's choice is also written to their profile
- * so it follows them to another browser.
+ * Доступен без аутентификации, чтобы публичную страницу можно было читать на
+ * любом языке. Выбор авторизованного пользователя сохраняется в профиле и
+ * применяется в других браузерах.
  */
 class LocaleController extends Controller
 {

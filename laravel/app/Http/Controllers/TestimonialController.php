@@ -14,7 +14,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 /**
- * Moderation inbox for a single space.
+ * Очередь модерации отзывов одного пространства.
  */
 class TestimonialController extends Controller
 {

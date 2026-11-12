@@ -12,7 +12,32 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * Отзыв, отправленный в пространство.
+ *
+ * @property string $id
+ * @property string $space_id
+ * @property string $author_name
+ * @property string|null $author_email
+ * @property string|null $author_avatar_url
+ * @property string|null $author_title
+ * @property string|null $author_company
+ * @property int $rating
+ * @property string $content
+ * @property string|null $video_url
+ * @property TestimonialStatusEnum $status
+ * @property array<int, string>|null $tags
+ * @property bool $is_featured
+ * @property Carbon|null $approved_at
+ * @property string $source
+ * @property string|null $imported_from_url
+ * @property string|null $search_vector
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Space $space
+ */
 #[Fillable([
     'space_id',
     'author_name',
@@ -34,10 +59,10 @@ class Testimonial extends Model
     /** @use HasFactory<TestimonialFactory> */
     use HasFactory, HasUuids;
 
-    /** The most tags a single testimonial may carry. */
+    /** Максимальное количество тегов у одного отзыва. */
     public const MAX_TAGS = 10;
 
-    /** The longest a single tag may be. */
+    /** Максимальная длина одного тега. */
     public const MAX_TAG_LENGTH = 32;
 
     /**
@@ -82,7 +107,7 @@ class Testimonial extends Model
     }
 
     /**
-     * Ordering used on every public wall: featured first, then newest.
+     * Сортирует отзывы для публичной стены: сначала избранные, затем новые.
      */
     public function scopeForWall(Builder $query): Builder
     {
@@ -90,10 +115,9 @@ class Testimonial extends Model
     }
 
     /**
-     * Full-text match against the generated `search_vector` column.
+     * Выполняет полнотекстовый поиск по вычисляемому полю `search_vector`.
      *
-     * A term that produces no usable tokens (punctuation only) leaves the
-     * query untouched rather than erroring.
+     * Если строка не содержит пригодных токенов, запрос остаётся без изменений.
      */
     public function scopeSearch(Builder $query, string $term): Builder
     {
@@ -110,7 +134,7 @@ class Testimonial extends Model
     }
 
     /**
-     * Rank the results of scopeSearch by relevance.
+     * Сортирует результаты scopeSearch по релевантности.
      */
     public function scopeRankedBy(Builder $query, string $term): Builder
     {
@@ -127,10 +151,10 @@ class Testimonial extends Model
     }
 
     /**
-     * Match a single tag.
+     * Отбирает отзывы по одному тегу.
      *
-     * `tags` is a json column, so the containment operator needs the jsonb
-     * cast; this is why the raw form is used instead of whereJsonContains().
+     * Поле `tags` хранится как JSON, поэтому оператору вхождения требуется
+     * преобразование в jsonb и используется сырой запрос вместо whereJsonContains().
      */
     public function scopeTaggedWith(Builder $query, string $tag): Builder
     {
@@ -140,11 +164,11 @@ class Testimonial extends Model
     }
 
     /**
-     * Turn free text into a tsquery: every alphanumeric run becomes a
-     * lowercased prefix term, ANDed together.
+     * Преобразует текст в tsquery: каждая буквенно-цифровая часть становится
+     * приведённым к нижнему регистру префиксом, объединённым через AND.
      *
-     * Returns null when nothing usable remains, so callers can skip the
-     * clause entirely — `to_tsquery('')` is a syntax error in PostgreSQL.
+     * Возвращает null, если пригодных частей нет, чтобы вызывающий код пропустил
+     * условие: `to_tsquery('')` вызывает синтаксическую ошибку PostgreSQL.
      */
     public static function toTsquery(string $term): ?string
     {
@@ -160,7 +184,7 @@ class Testimonial extends Model
     }
 
     /**
-     * Normalise a submitted tag list: trimmed, lowercased, deduplicated.
+     * Нормализует теги: обрезает пробелы, меняет регистр и удаляет дубликаты.
      *
      * @param  array<int, string>  $tags
      * @return array<int, string>
@@ -207,7 +231,7 @@ class Testimonial extends Model
     // ── Presentation helpers ──
 
     /**
-     * Initials used as an avatar placeholder when no image is available.
+     * Возвращает инициалы для заглушки аватара при отсутствии изображения.
      */
     public function initials(): string
     {

@@ -70,7 +70,7 @@ class WidgetFactory extends Factory
     }
 
     /**
-     * Override individual configuration keys.
+     * Переопределяет отдельные параметры конфигурации.
      *
      * @param  array<string, mixed>  $overrides
      */

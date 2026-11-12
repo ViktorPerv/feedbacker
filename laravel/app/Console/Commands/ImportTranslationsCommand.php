@@ -10,12 +10,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 
 /**
- * Loads the language files into the database.
+ * Загружает языковые файлы в базу данных.
  *
- * The files stay the source of truth for *which* keys exist; the database is
- * where their wording is edited. Importing is therefore additive by default —
- * an existing row is left alone so a translator's work is never clobbered by
- * a deploy.
+ * Файлы остаются источником истины о наборе ключей, а текст редактируется в БД.
+ * Поэтому импорт по умолчанию только добавляет строки и не перезаписывает
+ * работу переводчика при развёртывании.
  */
 class ImportTranslationsCommand extends Command
 {
@@ -107,11 +106,10 @@ class ImportTranslationsCommand extends Command
     }
 
     /**
-     * Drop rows whose key has disappeared from the language files.
+     * Удаляет строки, ключи которых исчезли из языковых файлов.
      *
-     * Scoped to the locale and group combinations that were actually scanned:
-     * pruning everything on a `--group=auth` run would delete the rest of the
-     * catalogue.
+     * Удаление ограничено проверенными комбинациями языка и группы, иначе запуск
+     * с `--group=auth` удалил бы остальную часть каталога.
      *
      * @param  array<string, array<int, string>>  $seen
      */

@@ -13,11 +13,10 @@ use App\Models\Widget;
 use Illuminate\Database\Seeder;
 
 /**
- * Realistic content for the landing page demo.
+ * Реалистичные данные для демонстрации на главной странице.
  *
- * The homepage embeds a real widget, so the space behind it needs real
- * approved testimonials — an empty wall demonstrates nothing. Idempotent:
- * re-running updates the same rows rather than duplicating them.
+ * Главная страница встраивает настоящий виджет, поэтому пространству нужны
+ * одобренные отзывы. Повторный запуск обновляет те же строки без дублирования.
  *
  *   make artisan cmd="db:seed --class=DemoContentSeeder"
  */

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * Send a new email verification notification.
+     * Отправляет новое уведомление для подтверждения адреса электронной почты.
      */
     public function store(Request $request): RedirectResponse
     {

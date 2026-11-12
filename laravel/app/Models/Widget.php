@@ -11,8 +11,23 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
+/**
+ * Настраиваемый виджет отзывов.
+ *
+ * @property string $id
+ * @property string $space_id
+ * @property string $name
+ * @property WidgetLayoutEnum $layout
+ * @property string $token
+ * @property array<string, mixed> $config
+ * @property bool $is_active
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Space $space
+ */
 #[Fillable(['space_id', 'name', 'layout', 'token', 'config', 'is_active'])]
 class Widget extends Model
 {
@@ -32,8 +47,8 @@ class Widget extends Model
     }
 
     /**
-     * Embeds address a widget by its public token, never by UUID: the value
-     * ends up in third-party page source.
+     * Использует публичный токен вместо UUID для привязки модели маршрута,
+     * поскольку значение попадает в исходный код сторонних страниц.
      */
     public function getRouteKeyName(): string
     {
@@ -46,8 +61,8 @@ class Widget extends Model
     }
 
     /**
-     * The saved configuration merged over the layout's defaults, so a config
-     * written before a new option existed still renders.
+     * Объединяет сохранённую конфигурацию со значениями макета по умолчанию,
+     * чтобы старые настройки продолжали корректно отображаться.
      *
      * @return array<string, mixed>
      */
@@ -57,14 +72,11 @@ class Widget extends Model
     }
 
     /**
-     * The public script URL for this widget.
-     */
-    /**
-     * Where the embeddable script lives.
+     * Возвращает адрес встраиваемого скрипта.
      *
-     * Points at the widget service, not at the application: the Go server is
-     * what answers `/w/{slug}/{token}.js`. Using url() here would generate a
-     * link to a route Laravel does not have.
+     * Адрес ведёт к сервису виджетов, а не к приложению: путь
+     * `/w/{slug}/{token}.js` обслуживает Go-сервер. Функция url() создала бы
+     * ссылку на отсутствующий маршрут Laravel.
      */
     public function embedUrl(): string
     {
@@ -74,7 +86,7 @@ class Widget extends Model
     }
 
     /**
-     * The snippet a user pastes into their site.
+     * Возвращает фрагмент кода для вставки на сайт пользователя.
      */
     public function embedSnippet(): string
     {

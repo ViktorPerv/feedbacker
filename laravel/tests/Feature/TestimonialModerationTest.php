@@ -11,10 +11,10 @@ use Tests\Fixtures\TestFixturesSeeder;
 use Tests\TestCase;
 
 /**
- * The moderation inbox, driven by the fixture dataset.
+ * Очередь модерации на основе набора фикстур.
  *
- * acme-inc holds four testimonials: Alice (approved + featured), Bob
- * (approved), Carol (pending) and Dave (rejected).
+ * В acme-inc четыре отзыва: Alice (одобрен и избран), Bob (одобрен),
+ * Carol (ожидает модерации) и Dave (отклонён).
  */
 class TestimonialModerationTest extends TestCase
 {

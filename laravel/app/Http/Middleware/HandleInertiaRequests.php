@@ -12,12 +12,12 @@ use Inertia\Middleware;
 class HandleInertiaRequests extends Middleware
 {
     /**
-     * The root template that is loaded on the first page visit.
+     * Корневой шаблон, загружаемый при первом посещении страницы.
      */
     protected $rootView = 'app';
 
     /**
-     * Determine the current asset version.
+     * Определяет текущую версию ресурсов.
      */
     public function version(Request $request): ?string
     {
@@ -25,7 +25,7 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
-     * Define the props that are shared by default.
+     * Определяет свойства, передаваемые клиенту по умолчанию.
      *
      * @return array<string, mixed>
      */

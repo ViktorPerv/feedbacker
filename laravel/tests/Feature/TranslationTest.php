@@ -17,7 +17,7 @@ use Tests\Fixtures\TestFixturesSeeder;
 use Tests\TestCase;
 
 /**
- * Locales, database-backed translations and the catalogue CRUD.
+ * Языки, переводы из базы данных и CRUD каталога.
  */
 class TranslationTest extends TestCase
 {

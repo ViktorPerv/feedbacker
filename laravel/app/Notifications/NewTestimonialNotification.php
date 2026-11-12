@@ -12,10 +12,10 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
 /**
- * Tells a space owner that a testimonial is waiting for moderation.
+ * Уведомляет владельца пространства об отзыве, ожидающем модерации.
  *
- * Queued: a visitor submitting the public form should never wait on an SMTP
- * handshake, and a mail outage must not fail their submission.
+ * Выполняется в очереди: посетитель не должен ждать SMTP-соединения, а сбой
+ * почты не должен мешать отправке отзыва.
  */
 class NewTestimonialNotification extends Notification implements ShouldQueue
 {

@@ -12,7 +12,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Регистрирует сервисы приложения.
      */
     public function register(): void
     {
@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Инициализирует сервисы приложения.
      */
     public function boot(): void
     {
@@ -34,14 +34,14 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Teach the translator to read from the database.
+     * Настраивает чтение переводов из базы данных.
      *
-     * Two halves, and both are needed:
+     * Настройка состоит из двух обязательных частей:
      *
-     *  - the loader reads rows and merges them over the language files, so a
-     *    key with no row still resolves;
-     *  - the translator drops its own memo when the catalogue changes, because
-     *    it would otherwise never ask the loader twice in one request.
+     *  - загрузчик читает строки и объединяет их с языковыми файлами, поэтому
+     *    ключ без строки в БД продолжает работать;
+     *  - переводчик очищает внутренний кеш при изменении каталога, иначе в
+     *    рамках одного запроса он не обратится к загрузчику повторно.
      */
     private function bindDatabaseTranslationLoader(): void
     {

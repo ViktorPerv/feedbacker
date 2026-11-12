@@ -12,16 +12,16 @@ use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Picks the locale for the request.
+ * Выбирает язык для запроса.
  *
- * Order of precedence:
- *   1. the session — an explicit choice from the switcher
- *   2. the signed-in user's saved preference
- *   3. the browser's Accept-Language header
- *   4. the language marked as default
+ * Порядок приоритета:
+ *   1. сессия — явный выбор в переключателе;
+ *   2. сохранённая настройка авторизованного пользователя;
+ *   3. заголовок браузера Accept-Language;
+ *   4. язык, отмеченный как используемый по умолчанию.
  *
- * The session comes first so that switching language takes effect immediately
- * for a signed-in user too, without waiting for a profile save.
+ * Сессия имеет наивысший приоритет, чтобы язык авторизованного пользователя
+ * менялся сразу, без ожидания сохранения профиля.
  */
 class SetLocale
 {

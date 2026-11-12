@@ -15,10 +15,10 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 /**
- * Translation catalogue.
+ * Каталог переводов.
  *
- * Reachable by `admin` and `translator`; the translator role exists so the
- * catalogue can be maintained without granting access to customer data.
+ * Доступен ролям `admin` и `translator`; отдельная роль переводчика позволяет
+ * редактировать каталог без доступа к данным клиентов.
  */
 class TranslationController extends Controller
 {
@@ -147,10 +147,9 @@ class TranslationController extends Controller
     }
 
     /**
-     * Pull the language files into the database.
+     * Загружает языковые файлы в базу данных.
      *
-     * Additive: existing rows are left alone, so this cannot undo a
-     * translator's work.
+     * Импорт только добавляет строки и не меняет существующие переводы.
      */
     public function import(): RedirectResponse
     {
@@ -162,7 +161,7 @@ class TranslationController extends Controller
     }
 
     /**
-     * How complete each language is, for the index header.
+     * Рассчитывает полноту каждого языка для заголовка списка.
      *
      * @return array<int, array<string, mixed>>
      */

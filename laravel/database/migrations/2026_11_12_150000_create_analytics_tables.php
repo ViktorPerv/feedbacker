@@ -7,11 +7,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Analytics written by the Go widget service.
+ * Аналитика, записываемая сервисом виджетов на Go.
  *
- * Both tables are append-only and carry a denormalised space_id: every
- * dashboard query is scoped to a set of spaces, so keeping the column here
- * avoids a join on the hot path.
+ * Обе таблицы только пополняются и содержат денормализованный space_id: запросы
+ * панели ограничены набором пространств, а поле позволяет избежать JOIN в
+ * часто выполняемом запросе.
  */
 return new class extends Migration
 {

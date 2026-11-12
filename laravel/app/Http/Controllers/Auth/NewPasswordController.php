@@ -19,7 +19,7 @@ use Inertia\Response;
 class NewPasswordController extends Controller
 {
     /**
-     * Display the password reset view.
+     * Показывает страницу сброса пароля.
      */
     public function create(Request $request): Response
     {
@@ -30,7 +30,7 @@ class NewPasswordController extends Controller
     }
 
     /**
-     * Handle an incoming new password request.
+     * Обрабатывает запрос на установку нового пароля.
      *
      * @throws ValidationException
      */

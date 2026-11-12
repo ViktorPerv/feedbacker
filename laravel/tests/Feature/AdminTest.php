@@ -13,16 +13,16 @@ use Tests\Fixtures\TestFixturesSeeder;
 use Tests\TestCase;
 
 /**
- * Cross-account oversight, driven by the `admin` role.
+ * Управление чужими учётными записями с ролью `admin`.
  *
- * The fixture dataset gives the admin nothing of its own: acme-inc and globex
- * belong to the owner, initech to the stranger.
+ * В фикстурах у администратора нет собственных данных: acme-inc и globex
+ * принадлежат владельцу, а initech — другому пользователю.
  */
 class AdminTest extends TestCase
 {
     /**
-     * Pull one entry out of the Inertia props by slug, so assertions do not
-     * depend on the ordering the controller happens to use.
+     * Извлекает запись из свойств Inertia по slug, чтобы проверки не зависели
+     * от порядка, выбранного контроллером.
      */
     private function spaceProps(TestResponse $response, string $slug): array
     {

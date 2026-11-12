@@ -6,13 +6,13 @@ namespace App\Enums;
 
 enum RoleEnum: string
 {
-    /** Platform administrator — cross-account oversight. */
+    /** Администратор платформы с доступом к чужим учётным записям. */
     case Admin = 'admin';
 
-    /** Maintains the translation catalogue. No access to customer data. */
+    /** Редактор каталога переводов без доступа к данным клиентов. */
     case Translator = 'translator';
 
-    /** Standard account holder. Assigned automatically on registration. */
+    /** Обычный пользователь, роль назначается автоматически при регистрации. */
     case User = 'user';
 
     public function label(): string
@@ -34,10 +34,10 @@ enum RoleEnum: string
     }
 
     /**
-     * The permissions each role starts with.
+     * Возвращает исходный набор разрешений каждой роли.
      *
-     * `admin` is deliberately not listed: it holds every permission, so
-     * listing them would mean editing this file every time one is added.
+     * Роль `admin` намеренно не указана: она получает все разрешения, поэтому
+     * список пришлось бы менять при каждом добавлении разрешения.
      *
      * @return array<int, PermissionEnum>
      */

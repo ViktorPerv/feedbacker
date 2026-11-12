@@ -8,21 +8,19 @@ use App\Models\Translation;
 use Illuminate\Translation\Translator;
 
 /**
- * A translator that notices when the catalogue has changed.
+ * Переводчик, отслеживающий изменения каталога.
  *
- * The base Translator memoises every group it loads, so it asks its loader for
- * a group exactly once per request. That makes the loader's own invalidation
- * useless: after a write, the translator would keep serving the lines it read
- * before it.
+ * Базовый Translator кеширует загруженные группы и обращается к загрузчику
+ * только один раз за запрос. Без дополнительной проверки после записи он
+ * продолжал бы возвращать прежние строки.
  *
- * This subclass checks the catalogue version first and drops its memo when it
- * moves, so a saved translation is visible immediately — which matters because
- * the catalogue is edited through the running application.
+ * Этот подкласс проверяет версию каталога и очищает кеш при её изменении,
+ * поэтому сохранённый через работающее приложение перевод виден сразу.
  */
 class DatabaseTranslator extends Translator
 {
     /**
-     * The catalogue version the memoised groups were read at.
+     * Версия каталога, для которой были прочитаны кешированные группы.
      */
     protected ?int $catalogueVersion = null;
 

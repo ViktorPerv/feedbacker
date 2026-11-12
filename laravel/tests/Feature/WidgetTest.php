@@ -12,10 +12,9 @@ use Tests\Fixtures\TestFixturesSeeder;
 use Tests\TestCase;
 
 /**
- * The widget builder.
+ * Конструктор виджетов.
  *
- * The fixture gives acme-inc two widgets: a masonry wall and a badge, both
- * owned by the owner.
+ * Фикстура создаёт для acme-inc два виджета владельца: плиточную стену и бейдж.
  */
 class WidgetTest extends TestCase
 {

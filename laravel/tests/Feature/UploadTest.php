@@ -14,11 +14,11 @@ use Tests\Fixtures\TestFixturesSeeder;
 use Tests\TestCase;
 
 /**
- * Uploads against a faked disk.
+ * Загрузка файлов с подменённым диском.
  *
- * The suite never talks to MinIO: `Storage::fake()` swaps the disk, so these
- * tests cover the application logic while the real bucket is exercised by the
- * end-to-end check.
+ * Набор тестов не обращается к MinIO: `Storage::fake()` подменяет диск, поэтому
+ * здесь проверяется логика приложения, а настоящее хранилище покрывается
+ * сквозным тестом.
  */
 class UploadTest extends TestCase
 {
@@ -30,7 +30,7 @@ class UploadTest extends TestCase
     }
 
     /**
-     * A real PNG, so the `image` and `dimensions` rules both pass.
+     * Создаёт настоящий PNG, проходящий правила `image` и `dimensions`.
      */
     private function png(int $width = 64, int $height = 64, string $name = 'logo.png'): UploadedFile
     {

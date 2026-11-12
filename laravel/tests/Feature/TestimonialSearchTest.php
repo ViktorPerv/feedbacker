@@ -13,7 +13,7 @@ use Tests\Fixtures\TestFixturesSeeder;
 use Tests\TestCase;
 
 /**
- * Tags, full-text search and the new-testimonial notification.
+ * Теги, полнотекстовый поиск и уведомление о новом отзыве.
  */
 class TestimonialSearchTest extends TestCase
 {

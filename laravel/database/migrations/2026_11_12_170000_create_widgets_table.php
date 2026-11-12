@@ -7,12 +7,12 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Saved widget configurations.
+ * Сохранённые конфигурации виджетов.
  *
- * Phase 4 configured an embed entirely through the script URL's query string,
- * which is fine for one wall per space. This table is what makes several
- * differently-configured embeds per space possible: each row is a named layout
- * with its own public token.
+ * Ранее встраивание полностью настраивалось строкой запроса URL скрипта, чего
+ * достаточно для одной стены. Таблица позволяет иметь несколько по-разному
+ * настроенных виджетов пространства: каждая строка задаёт именованный макет со
+ * своим публичным токеном.
  */
 return new class extends Migration
 {

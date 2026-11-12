@@ -32,7 +32,7 @@ class WidgetViewFactory extends Factory
     }
 
     /**
-     * Place the impression at a specific moment.
+     * Устанавливает для показа указанное время.
      */
     public function at(DateTimeInterface $moment): static
     {

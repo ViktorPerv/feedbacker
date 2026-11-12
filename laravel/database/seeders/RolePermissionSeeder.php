@@ -13,11 +13,10 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
 /**
- * Creates every role and permission from the enums.
+ * Создаёт все роли и разрешения из перечислений.
  *
- * Driven by `RoleEnum::permissions()` rather than a hand-written matrix, so a
- * permission added to the enum reaches the right roles on the next seed
- * without this file being touched.
+ * Использует `RoleEnum::permissions()` вместо вручную заданной матрицы, поэтому
+ * новое разрешение попадёт в нужные роли при следующем заполнении БД.
  */
 class RolePermissionSeeder extends Seeder
 {

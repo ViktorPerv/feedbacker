@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role;
 
 /**
  * @extends Factory<User>
@@ -17,12 +16,12 @@ use Spatie\Permission\Models\Role;
 class UserFactory extends Factory
 {
     /**
-     * The current password being used by the factory.
+     * Текущий пароль, используемый фабрикой.
      */
     protected static ?string $password;
 
     /**
-     * Define the model's default state.
+     * Определяет состояние модели по умолчанию.
      *
      * @return array<string, mixed>
      */
@@ -38,7 +37,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Помечает адрес электронной почты модели как неподтверждённый.
      */
     public function unverified(): static
     {
@@ -48,9 +47,9 @@ class UserFactory extends Factory
     }
 
     /**
-     * Give the created user the administrator role.
+     * Назначает созданному пользователю роль администратора.
      *
-     * Requires RolePermissionSeeder to have run.
+     * Требует предварительного запуска RolePermissionSeeder.
      */
     public function admin(): static
     {
@@ -60,9 +59,9 @@ class UserFactory extends Factory
     }
 
     /**
-     * Give the created user the baseline member role.
+     * Назначает созданному пользователю базовую роль.
      *
-     * Requires RolePermissionSeeder to have run.
+     * Требует предварительного запуска RolePermissionSeeder.
      */
     public function member(): static
     {
@@ -72,7 +71,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Create the user without any role at all.
+     * Создаёт пользователя без какой-либо роли.
      */
     public function roleless(): static
     {

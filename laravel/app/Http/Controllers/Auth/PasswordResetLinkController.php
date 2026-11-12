@@ -15,7 +15,7 @@ use Inertia\Response;
 class PasswordResetLinkController extends Controller
 {
     /**
-     * Display the password reset link request view.
+     * Показывает страницу запроса ссылки для сброса пароля.
      */
     public function create(): Response
     {
@@ -25,7 +25,7 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * Handle an incoming password reset link request.
+     * Обрабатывает запрос ссылки для сброса пароля.
      *
      * @throws ValidationException
      */

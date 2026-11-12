@@ -8,9 +8,8 @@ use App\Models\User;
 use App\Models\Widget;
 
 /**
- * Widgets are owned through their space, so every ability delegates to
- * SpacePolicy. Keeping the rule in one place means "who may edit this space"
- * has exactly one answer.
+ * Виджеты принадлежат пространству, поэтому все проверки делегируются
+ * SpacePolicy. Так правило редактирования пространства остаётся единым.
  */
 class WidgetPolicy
 {

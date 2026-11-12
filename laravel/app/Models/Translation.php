@@ -7,20 +7,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * One translation string.
+ * Одна строка перевода.
  *
- * `key` uses dot notation for nesting (`nav.dashboard`), matching how Laravel's
- * translator resolves keys, so a row can override a value buried inside a
- * nested array in a language file.
+ * Поле `key` использует точечную запись (`nav.dashboard`), соответствующую
+ * разрешению ключей в Laravel, поэтому строка может переопределить вложенное
+ * значение из языкового файла.
+ *
+ * @property int $id
+ * @property string $locale
+ * @property string $group
+ * @property string $key
+ * @property string|null $value
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 class Translation extends Model
 {
     /**
-     * Bumped on every write. It is part of the loader's cache key, which is
-     * what makes a save visible immediately without flushing anything.
+     * Увеличивается при каждой записи и входит в ключ кеша загрузчика, поэтому
+     * сохранённый перевод становится виден сразу без полного сброса кеша.
      */
     public const VERSION_KEY = 'translations:version';
 
@@ -67,8 +76,7 @@ class Translation extends Model
     }
 
     /**
-     * Match either the key or the value, so a translator can search for the
-     * English wording they are trying to replace.
+     * Ищет по ключу или значению, чтобы переводчик мог найти заменяемый текст.
      *
      * @param  Builder<self>  $query
      * @return Builder<self>
@@ -84,7 +92,7 @@ class Translation extends Model
     }
 
     /**
-     * Every group that has at least one row, for the filter dropdown.
+     * Возвращает группы, содержащие хотя бы одну строку, для выпадающего фильтра.
      *
      * @return array<int, string>
      */
@@ -98,11 +106,10 @@ class Translation extends Model
     }
 
     /**
-     * The keys the frontend needs, as a flat list.
+     * Возвращает плоский список ключей, необходимых клиентскому приложению.
      *
-     * The union of what is in the database and what is in the canonical `en`
-     * file: a key that exists only in the file still has to be shipped, and a
-     * key a translator added ahead of the file has to appear too.
+     * Объединяет ключи из БД и основного файла `en`: ключ только из файла всё
+     * равно должен попасть на клиент, как и заранее добавленный переводчиком ключ.
      *
      * @return array<int, string>
      */
@@ -126,8 +133,8 @@ class Translation extends Model
     }
 
     /**
-     * A flat key => value map for the current locale, resolved through the
-     * translator so file fallbacks apply.
+     * Возвращает плоскую карту «ключ => значение» для текущего языка с учётом
+     * резервных значений из файлов переводов.
      *
      * @return array<string, string>
      */

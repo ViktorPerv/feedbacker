@@ -11,10 +11,10 @@ use App\Models\Widget;
 use Tests\Fixtures\TestFixturesSeeder;
 
 /**
- * Typed access to the records created by TestFixturesSeeder.
+ * Типизированный доступ к записям, созданным TestFixturesSeeder.
  *
- * Each lookup is memoised for the duration of a single test, so reading the
- * same fixture repeatedly costs one query.
+ * Результат каждого поиска кешируется на время теста, поэтому повторное чтение
+ * одной фикстуры выполняет только один запрос.
  */
 trait InteractsWithFixtures
 {
@@ -36,7 +36,7 @@ trait InteractsWithFixtures
         return $this->fixtureUser(TestFixturesSeeder::STRANGER_EMAIL);
     }
 
-    /** Holds `translations.manage` and nothing else. */
+    /** Содержит только разрешение `translations.manage`. */
     protected function fixtureTranslator(): User
     {
         return $this->fixtureUser(TestFixturesSeeder::TRANSLATOR_EMAIL);
@@ -47,19 +47,19 @@ trait InteractsWithFixtures
         return $this->fixtureCache["user:{$email}"] ??= User::where('email', $email)->firstOrFail();
     }
 
-    /** The owner's active space, holding testimonials in every state. */
+    /** Активное пространство владельца с отзывами во всех статусах. */
     protected function fixtureSpace(): Space
     {
         return $this->fixtureSpaceBySlug(TestFixturesSeeder::SPACE_SLUG);
     }
 
-    /** The owner's space, closed for submissions. */
+    /** Пространство владельца, закрытое для новых отзывов. */
     protected function fixtureInactiveSpace(): Space
     {
         return $this->fixtureSpaceBySlug(TestFixturesSeeder::INACTIVE_SPACE_SLUG);
     }
 
-    /** The stranger's space, used for cross-account checks. */
+    /** Пространство другого пользователя для проверок разграничения доступа. */
     protected function fixtureForeignSpace(): Space
     {
         return $this->fixtureSpaceBySlug(TestFixturesSeeder::FOREIGN_SPACE_SLUG);
@@ -79,13 +79,13 @@ trait InteractsWithFixtures
         )->firstOrFail();
     }
 
-    /** The default masonry widget on the owner's active space. */
+    /** Плиточный виджет активного пространства владельца. */
     protected function fixtureWidget(): Widget
     {
         return $this->fixtureWidgetByToken(TestFixturesSeeder::MASONRY_WIDGET_TOKEN);
     }
 
-    /** The badge widget on the owner's active space. */
+    /** Виджет-бейдж активного пространства владельца. */
     protected function fixtureBadgeWidget(): Widget
     {
         return $this->fixtureWidgetByToken(TestFixturesSeeder::BADGE_WIDGET_TOKEN);

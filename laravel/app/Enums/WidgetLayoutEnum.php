@@ -6,16 +6,16 @@ namespace App\Enums;
 
 enum WidgetLayoutEnum: string
 {
-    /** Responsive masonry wall — the original. */
+    /** Адаптивная плиточная стена — исходный макет. */
     case Masonry = 'masonry';
 
-    /** Horizontal scroll-snap row with arrows. */
+    /** Горизонтальная прокручиваемая строка со стрелками. */
     case Carousel = 'carousel';
 
-    /** One testimonial, for a hero or a sidebar. */
+    /** Один отзыв для главного блока или боковой панели. */
     case Single = 'single';
 
-    /** Avatars plus a count and an average — small enough for a pricing table. */
+    /** Аватары, количество и средняя оценка для компактного блока. */
     case Badge = 'badge';
 
     public function label(): string
@@ -39,7 +39,7 @@ enum WidgetLayoutEnum: string
     }
 
     /**
-     * Layouts where a column count is meaningful.
+     * Возвращает макеты, для которых применимо количество столбцов.
      */
     public function supportsColumns(): bool
     {
@@ -47,7 +47,7 @@ enum WidgetLayoutEnum: string
     }
 
     /**
-     * Layouts where a per-page limit is meaningful.
+     * Возвращает макеты, для которых применим лимит на страницу.
      */
     public function supportsLimit(): bool
     {
@@ -55,7 +55,7 @@ enum WidgetLayoutEnum: string
     }
 
     /**
-     * Layouts that render individual testimonial text.
+     * Возвращает макеты, отображающие текст отдельных отзывов.
      */
     public function rendersTestimonials(): bool
     {
@@ -63,7 +63,7 @@ enum WidgetLayoutEnum: string
     }
 
     /**
-     * The default configuration for this layout.
+     * Возвращает конфигурацию макета по умолчанию.
      *
      * @return array<string, mixed>
      */

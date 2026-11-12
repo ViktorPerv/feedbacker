@@ -1,5 +1,4 @@
-<laravel-boost-guidelines>
-# Laravel Application
+## Laravel Application
 
 This repository contains a Laravel application. Complete the following setup before working on the user's request.
 
@@ -45,3 +44,20 @@ php artisan boost:install
 
 Boost replaces these bootstrap instructions with guidelines tailored to the application. After installation, read `AGENTS.md` again and continue with the user's original request using the generated guidelines.
 </laravel-boost-guidelines>
+
+## Соглашения проекта
+
+### Язык
+- Все описания классов и методов в PHPDoc должны быть написаны на русском языке.
+- Коммиты и имена веток — на английском (Conventional Commits)
+- Служебные PHPDoc-теги (`@param`, `@return`, `@var`, `@property`, `@throws`, `@template`, `@extends`, `@use`) сохраняются в стандартном формате; поясняющий текст к ним пишется на русском языке.
+- Каждая Eloquent-модель должна содержать PHPDoc-аннотации `@property` для всех полей таблицы с типами, соответствующими миграциям и кастам модели.
+
+### Безопасность
+
+- Никогда не коммитить секреты и ключи доступа
+- Никогда не доверять клиентским данным без серверной валидации
+- Никогда не вставлять значения напрямую в SQL (использовать параметризованные запросы)
+- Всегда валидировать и санировать пользовательский ввод
+- Всегда экранировать вывод для предотвращения XSS
+- Регулярно обновлять зависимости для устранения уязвимостей

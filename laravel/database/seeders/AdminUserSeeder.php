@@ -11,11 +11,10 @@ use Illuminate\Database\Seeder;
 class AdminUserSeeder extends Seeder
 {
     /**
-     * Create (or refresh) the local development administrator and give it the
-     * `admin` role.
+     * Создаёт или обновляет локального администратора и назначает роль `admin`.
      *
-     * Credentials come from config/feedbacker.php, which reads ADMIN_NAME,
-     * ADMIN_EMAIL and ADMIN_PASSWORD from the environment.
+     * Учётные данные берутся из config/feedbacker.php, который читает
+     * ADMIN_NAME, ADMIN_EMAIL и ADMIN_PASSWORD из окружения.
      */
     public function run(): void
     {

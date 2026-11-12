@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Enums;
 
 /**
- * Every permission in the application.
+ * Все разрешения приложения.
  *
- * The naming convention is `<resource>.<action>[.scope]`. Operations on a
- * resource the user *owns* are guarded by ownership in the policy and need no
- * permission; the `.any` suffix marks cross-account oversight powers that only
- * privileged roles hold.
+ * Формат имени: `<resource>.<action>[.scope]`. Действия с собственным ресурсом
+ * проверяются политикой владения и не требуют разрешения; суффикс `.any`
+ * обозначает доступ к чужим ресурсам для привилегированных ролей.
  */
 enum PermissionEnum: string
 {
@@ -41,10 +40,10 @@ enum PermissionEnum: string
     }
 
     /**
-     * Permissions that do not touch customer data.
+     * Возвращает разрешения, не затрагивающие данные клиентов.
      *
-     * Used to decide what a narrowly-scoped role such as `translator` may
-     * reach, and to keep such roles out of account administration.
+     * Используется для узких ролей вроде `translator`, чтобы исключить их
+     * доступ к администрированию учётных записей.
      *
      * @return array<int, self>
      */
@@ -62,7 +61,7 @@ enum PermissionEnum: string
     }
 
     /**
-     * Permissions that grant access to resources owned by other accounts.
+     * Возвращает разрешения на ресурсы других учётных записей.
      *
      * @return array<int, string>
      */

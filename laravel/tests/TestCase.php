@@ -37,9 +37,9 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * The schema is not built by migrations during the suite — it is cloned
-     * from the development database by `make test_db_migration`. Fail with an
-     * actionable message instead of a confusing SQL error.
+     * Схема в тестах не создаётся миграциями, а клонируется из БД разработки
+     * командой `make test_db_migration`. При её отсутствии выводится понятное
+     * сообщение вместо неочевидной ошибки SQL.
      */
     private function ensureSchemaIsReady(): void
     {

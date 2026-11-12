@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Определяет, разрешено ли пользователю выполнять этот запрос.
      */
     public function authorize(): bool
     {
@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Возвращает правила валидации запроса.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
@@ -36,7 +36,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Attempt to authenticate the request's credentials.
+     * Пытается аутентифицировать пользователя по данным запроса.
      *
      * @throws ValidationException
      */
@@ -56,7 +56,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Ensure the login request is not rate limited.
+     * Проверяет, что запрос входа не превысил ограничение частоты.
      *
      * @throws ValidationException
      */
@@ -79,7 +79,7 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the rate limiting throttle key for the request.
+     * Возвращает ключ ограничения частоты для запроса.
      */
     public function throttleKey(): string
     {

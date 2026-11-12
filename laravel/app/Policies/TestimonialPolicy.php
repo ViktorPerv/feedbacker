@@ -8,10 +8,10 @@ use App\Models\Testimonial;
 use App\Models\User;
 
 /**
- * Authorisation for individual testimonials.
+ * Авторизация действий с отдельными отзывами.
  *
- * Moderation is delegated to SpacePolicy so the "who may moderate this space"
- * rule lives in exactly one place.
+ * Проверка модерации делегирована SpacePolicy, чтобы правило доступа к
+ * модерации пространства находилось в одном месте.
  */
 class TestimonialPolicy
 {

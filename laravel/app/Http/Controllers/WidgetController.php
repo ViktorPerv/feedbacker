@@ -13,8 +13,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 /**
- * The widget builder: several named embeds per space, each with its own layout
- * and configuration.
+ * Конструктор именованных виджетов пространства с отдельными макетами и настройками.
  */
 class WidgetController extends Controller
 {

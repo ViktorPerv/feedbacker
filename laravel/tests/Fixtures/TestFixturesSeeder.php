@@ -15,14 +15,14 @@ use Database\Seeders\LanguageSeeder;
 use Illuminate\Database\Seeder;
 
 /**
- * The canonical dataset every test runs against.
+ * Эталонный набор данных для всех тестов.
  *
- * Tests look records up by the stable identifiers declared here instead of
- * building their own. That keeps assertions readable and means a change to the
- * shape of the data is a change in exactly one file.
+ * Тесты находят записи по объявленным здесь стабильным идентификаторам вместо
+ * создания собственных данных. Это сохраняет читаемость проверок и позволяет
+ * менять структуру данных только в одном файле.
  *
- * The seeder runs inside the per-test transaction, so nothing survives the
- * test that created it.
+ * Наполнитель выполняется внутри транзакции каждого теста, поэтому созданные
+ * данные не сохраняются после его завершения.
  */
 class TestFixturesSeeder extends Seeder
 {
@@ -33,19 +33,19 @@ class TestFixturesSeeder extends Seeder
 
     public const STRANGER_EMAIL = 'stranger@feedbacker.test';
 
-    /** Holds only `translations.manage` — no access to customer data. */
+    /** Содержит только `translations.manage` без доступа к данным клиентов. */
     public const TRANSLATOR_EMAIL = 'translator@feedbacker.test';
 
     public const PASSWORD = 'password';
 
     // ── Spaces ──
-    /** Owned by the owner, active. Holds testimonials in every state. */
+    /** Активное пространство владельца с отзывами во всех статусах. */
     public const SPACE_SLUG = 'acme-inc';
 
-    /** Owned by the owner, but closed for submissions. */
+    /** Пространство владельца, закрытое для новых отзывов. */
     public const INACTIVE_SPACE_SLUG = 'globex';
 
-    /** Owned by the stranger — used for cross-account checks. */
+    /** Пространство другого пользователя для проверок разграничения доступа. */
     public const FOREIGN_SPACE_SLUG = 'initech';
 
     // ── Testimonials (keyed by author name) ──
@@ -77,7 +77,7 @@ class TestFixturesSeeder extends Seeder
 
     public const BADGE_WIDGET_TOKEN = 'fixtureBadgeWidget000002';
 
-    /** The testimonial carrying a video link. */
+    /** Отзыв со ссылкой на видео. */
     public const VIDEO_TESTIMONIAL = self::APPROVED_PLAIN;
 
     public const VIDEO_URL = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
@@ -179,7 +179,7 @@ class TestFixturesSeeder extends Seeder
     }
 
     /**
-     * Two saved widgets on acme-inc: the default masonry wall and a badge.
+     * Два сохранённых виджета acme-inc: плиточная стена и компактный бейдж.
      */
     private function seedWidgets(Space $space): void
     {
@@ -208,11 +208,10 @@ class TestFixturesSeeder extends Seeder
     }
 
     /**
-     * Widget impressions and card clicks for acme-inc.
+     * Показы виджетов и клики по карточкам для acme-inc.
      *
-     * 8 views and 4 clicks spread over three days, so the summary, the daily
-     * series and the "most clicked" list all have something deterministic to
-     * assert against.
+     * Восемь показов и четыре клика распределены по трём дням, чтобы сводка,
+     * дневной график и список популярных отзывов имели стабильные значения.
      */
     private function seedAnalytics(Space $space): void
     {

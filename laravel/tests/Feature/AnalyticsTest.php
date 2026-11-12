@@ -11,10 +11,10 @@ use Tests\Fixtures\TestFixturesSeeder;
 use Tests\TestCase;
 
 /**
- * Aggregation over the analytics the Go widget service writes.
+ * Агрегация аналитики, записываемой сервисом виджетов на Go.
  *
- * The fixture gives acme-inc 8 views and 4 clicks across three days; initech
- * has none, which is what makes the scoping assertions meaningful.
+ * Фикстура создаёт для acme-inc 8 показов и 4 клика за три дня, а для initech —
+ * ни одного, что позволяет проверить ограничение области данных.
  */
 class AnalyticsTest extends TestCase
 {

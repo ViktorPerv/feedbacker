@@ -9,11 +9,22 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
- * One impression of a space's widget, written by the Go widget service.
+ * Один показ виджета пространства, записанный сервисом виджетов на Go.
  *
- * The table is append-only and carries no updated_at, hence $timestamps.
+ * Таблица только пополняется и не содержит updated_at, поэтому $timestamps отключён.
+ *
+ * @property int $id
+ * @property string $space_id
+ * @property string|null $testimonial_id
+ * @property string|null $referrer
+ * @property string|null $user_agent
+ * @property string|null $ip_address
+ * @property Carbon $viewed_at
+ * @property-read Space $space
+ * @property-read Testimonial|null $testimonial
  */
 #[Fillable(['space_id', 'testimonial_id', 'referrer', 'user_agent', 'ip_address', 'viewed_at'])]
 class WidgetView extends Model

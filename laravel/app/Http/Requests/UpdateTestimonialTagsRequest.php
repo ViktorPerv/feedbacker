@@ -15,12 +15,12 @@ class UpdateTestimonialTagsRequest extends FormRequest
     }
 
     /**
-     * Drop blank entries before the rules run.
+     * Удаляет пустые элементы до применения правил.
      *
-     * A tag input naturally emits an empty string when the user clears it, and
-     * ConvertEmptyStringsToNull turns that into null — which the `string` rule
-     * then rejects, failing the whole request over one stray entry. Blanks are
-     * filtered again after validation, so this only decides what is *checked*.
+     * Очищенное поле тега отправляет пустую строку, которую
+     * ConvertEmptyStringsToNull преобразует в null, а правило `string` отклоняет.
+     * Пустые значения повторно фильтруются после валидации, здесь определяется
+     * только набор проверяемых значений.
      */
     protected function prepareForValidation(): void
     {

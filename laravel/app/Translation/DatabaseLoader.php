@@ -11,25 +11,24 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Translation\FileLoader;
 
 /**
- * Loads translation strings from the database, falling back to the files.
+ * Загружает переводы из базы данных с резервными значениями из файлов.
  *
- * Laravel's translator asks its loader for a whole group at a time, so this
- * merges one query's worth of rows over the file array. Rows win, which is what
- * makes a translation editable without a deploy; anything without a row keeps
- * resolving from `lang/`, so a string can ship before it is translated.
+ * Переводчик Laravel запрашивает группу целиком, поэтому результат одного
+ * запроса объединяется с массивом из файла. Строки БД имеют приоритет и могут
+ * редактироваться без развёртывания, а отсутствующие берутся из `lang/`.
  */
 class DatabaseLoader extends FileLoader
 {
     /**
-     * Merged groups already built for this request.
+     * Объединённые группы, уже построенные для текущего запроса.
      *
      * @var array<string, array<string, mixed>>
      */
     protected array $loaded = [];
 
     /**
-     * The cache version the loaded groups were built against. When a write
-     * bumps it, everything memoised here is stale and gets rebuilt.
+     * Версия кеша, для которой построены группы. При изменении версии
+     * сохранённые здесь данные считаются устаревшими и перестраиваются.
      */
     protected ?int $version = null;
 
@@ -69,8 +68,8 @@ class DatabaseLoader extends FileLoader
     }
 
     /**
-     * The rows for one locale and group, expanded into nested arrays so
-     * `Arr::get($lines, 'nav.dashboard')` finds them.
+     * Возвращает строки языка и группы как вложенный массив, доступный через
+     * `Arr::get($lines, 'nav.dashboard')`.
      *
      * @return array<string, mixed>
      */
@@ -92,7 +91,7 @@ class DatabaseLoader extends FileLoader
     }
 
     /**
-     * Drop the per-request memo when the stored translations have changed.
+     * Очищает кеш текущего запроса при изменении сохранённых переводов.
      */
     protected function syncVersion(): void
     {

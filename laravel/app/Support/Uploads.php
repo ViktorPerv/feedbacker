@@ -9,13 +9,12 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Uploads that work against whichever disk is configured.
+ * Загрузка файлов в настроенное файловое хранилище.
  *
- * The application never names a disk: `FILESYSTEM_DISK` decides, so the same
- * code runs on MinIO, real S3 or the local filesystem. Uploaded files use a
- * deterministic stem (`logo`, `avatar`) inside a per-owner directory, which
- * makes "replace the previous one" a directory listing rather than URL
- * archaeology.
+ * Приложение не задаёт диск напрямую: его определяет `FILESYSTEM_DISK`, поэтому
+ * один код работает с MinIO, S3 и локальной файловой системой. Файлы получают
+ * предсказуемую основу имени (`logo`, `avatar`) в каталоге владельца, что
+ * упрощает замену предыдущей загрузки.
  */
 final class Uploads
 {
@@ -25,9 +24,9 @@ final class Uploads
     }
 
     /**
-     * Store a file, replacing any earlier upload with the same stem.
+     * Сохраняет файл, заменяя предыдущую загрузку с той же основой имени.
      *
-     * @return string the path on the disk
+     * @return string Путь к файлу на диске.
      */
     public static function replace(UploadedFile $file, string $directory, string $stem): string
     {
@@ -43,10 +42,10 @@ final class Uploads
     }
 
     /**
-     * Remove every file in the directory whose stem matches.
+     * Удаляет из каталога все файлы с указанной основой имени.
      *
-     * Deleting by stem rather than by stored URL means a logo uploaded as
-     * .png is still cleaned up when it is replaced by a .webp.
+     * Удаление по основе имени гарантирует, что logo.png будет удалён при его
+     * замене файлом logo.webp.
      */
     public static function forget(string $directory, string $stem): void
     {
@@ -65,11 +64,10 @@ final class Uploads
     }
 
     /**
-     * The extension to store the file under.
+     * Определяет расширение сохраняемого файла.
      *
-     * Taken from the client filename, but the request has already constrained
-     * the MIME type, so this cannot smuggle an unexpected type past
-     * validation.
+     * Расширение берётся из клиентского имени, но MIME-тип уже ограничен
+     * валидацией, поэтому неподдерживаемый тип пройти не может.
      */
     public static function extension(UploadedFile $file): string
     {
@@ -83,7 +81,7 @@ final class Uploads
     }
 
     /**
-     * The directory a space's uploads live in.
+     * Возвращает каталог файлов пространства.
      */
     public static function spaceDirectory(string $spaceId): string
     {
@@ -91,7 +89,7 @@ final class Uploads
     }
 
     /**
-     * The directory a testimonial's uploads live in.
+     * Возвращает каталог файлов отзыва.
      */
     public static function testimonialDirectory(string $testimonialId): string
     {

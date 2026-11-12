@@ -10,18 +10,17 @@ use App\Models\WidgetView;
 use Illuminate\Support\Collection;
 
 /**
- * Read-side aggregation over the analytics the Go widget service writes.
+ * Агрегация аналитики, записываемой сервисом виджетов на Go.
  *
- * Every method takes a collection of space ids so the caller decides the
- * scope: a member passes their own spaces, an administrator passes all of
- * them.
+ * Каждый метод принимает коллекцию идентификаторов пространств: обычный
+ * пользователь передаёт свои пространства, администратор — все.
  */
 final class Analytics
 {
     public const DEFAULT_WINDOW_DAYS = 30;
 
     /**
-     * Headline numbers for a set of spaces.
+     * Возвращает основные показатели для набора пространств.
      *
      * @param  Collection<int, string>  $spaceIds
      * @return array{views: int, clicks: int, click_rate: float, days: int}
@@ -45,8 +44,8 @@ final class Analytics
     }
 
     /**
-     * Impressions and clicks per day, oldest first, including days with no
-     * activity so a chart has a continuous axis.
+     * Возвращает показы и клики по дням от старых к новым, включая дни без
+     * активности для непрерывной оси графика.
      *
      * @param  Collection<int, string>  $spaceIds
      * @return array<int, array{date: string, views: int, clicks: int}>
@@ -86,7 +85,7 @@ final class Analytics
     }
 
     /**
-     * The testimonials that attract the most clicks.
+     * Возвращает отзывы с наибольшим количеством кликов.
      *
      * @param  Collection<int, string>  $spaceIds
      * @return array<int, array{id: string, author_name: string, content: string, clicks: int}>
@@ -139,7 +138,7 @@ final class Analytics
     }
 
     /**
-     * Views and clicks per space, keyed by space id.
+     * Возвращает показы и клики по пространствам с ключом по идентификатору.
      *
      * @param  Collection<int, string>  $spaceIds
      * @return array<string, array{views: int, clicks: int}>

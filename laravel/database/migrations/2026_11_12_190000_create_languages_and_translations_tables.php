@@ -8,12 +8,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Locales and their translation strings.
+ * Языки и строки переводов.
  *
- * Translations live in the database rather than only in files so they can be
- * edited by a translator without a deploy. The files remain the fallback: a
- * key that has no row still resolves, which is what lets a new string ship
- * before anyone has translated it.
+ * Переводы хранятся в БД, чтобы их можно было редактировать без развёртывания.
+ * Файлы остаются резервным источником: ключ без строки в БД продолжает работать,
+ * поэтому новую строку можно выпустить до её перевода.
  */
 return new class extends Migration
 {

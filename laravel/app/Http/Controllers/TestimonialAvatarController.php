@@ -10,10 +10,10 @@ use App\Support\Uploads;
 use Illuminate\Http\RedirectResponse;
 
 /**
- * Avatar upload for a testimonial.
+ * Загрузка аватара автора отзыва.
  *
- * Useful when a reviewer was collected by link and their photo arrives later,
- * or when an imported review needs a face.
+ * Используется, если фотография автора появилась после сбора отзыва по ссылке
+ * или требуется дополнить импортированный отзыв.
  */
 class TestimonialAvatarController extends Controller
 {

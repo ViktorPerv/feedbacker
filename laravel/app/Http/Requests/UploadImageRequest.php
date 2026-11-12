@@ -7,10 +7,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Validation for an uploaded image.
+ * Валидация загружаемого изображения.
  *
- * SVG is deliberately absent from the allowed types: an SVG can carry script,
- * and these files are served from a bucket that browsers load directly.
+ * SVG намеренно исключён из разрешённых типов: он может содержать скрипт, а
+ * файлы из хранилища загружаются браузером напрямую.
  */
 class UploadImageRequest extends FormRequest
 {
@@ -54,10 +54,10 @@ class UploadImageRequest extends FormRequest
     }
 
     /**
-     * Which field this request is validating.
+     * Возвращает имя проверяемого поля.
      *
-     * Both the logo and the avatar endpoints share this class, so the field
-     * name comes from the route rather than being hard-coded.
+     * Класс используется для логотипа и аватара, поэтому имя поля определяется
+     * маршрутом, а не задаётся жёстко.
      */
     private function fileField(): string
     {

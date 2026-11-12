@@ -7,10 +7,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Validation for a submission coming from the public collection page.
+ * Валидация отзыва с публичной страницы сбора.
  *
- * There is no authenticated user here, so authorize() is open and abuse is
- * handled by the throttle middleware plus the honeypot check.
+ * Аутентифицированного пользователя нет, поэтому authorize() разрешает запрос,
+ * а злоупотребления ограничиваются посредником частоты и honeypot-проверкой.
  */
 class StorePublicTestimonialRequest extends FormRequest
 {
@@ -55,7 +55,7 @@ class StorePublicTestimonialRequest extends FormRequest
     }
 
     /**
-     * Whether the honeypot field was filled in.
+     * Определяет, было ли заполнено honeypot-поле.
      */
     public function looksLikeSpam(): bool
     {
@@ -63,8 +63,8 @@ class StorePublicTestimonialRequest extends FormRequest
     }
 
     /**
-     * Only the fields a submitter is allowed to set. Status, tags, featured
-     * state and provenance are controlled by the server.
+     * Возвращает только доступные отправителю поля. Статус, теги, признак
+     * избранного и источник контролируются сервером.
      *
      * @return array<string, mixed>
      */
