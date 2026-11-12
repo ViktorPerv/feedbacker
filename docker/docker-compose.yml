@@ -1,0 +1,225 @@
+# Shared fragments. Compose merges these into the services below, so the PHP
+# image and its environment are described once.
+x-php-build: &php-build
+  context: ..
+  dockerfile: docker/php/Dockerfile
+  args:
+    - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+    - APP_UID=${UID:-1000}
+    - APP_GID=${GID:-1000}
+
+x-app-environment: &app-environment
+  - APP_ENV=${APP_ENV:-local}
+  - APP_DEBUG=${APP_DEBUG:-true}
+  - DB_CONNECTION=${DB_CONNECTION:-pgsql}
+  - DB_HOST=${DB_HOST:-pgsql}
+  - DB_PORT=${DB_PORT:-5432}
+  - DB_DATABASE=${DB_DATABASE:-feedbacker}
+  - DB_USERNAME=${DB_USERNAME:-feedbacker}
+  - DB_PASSWORD=${DB_PASSWORD:-secret}
+  - REDIS_HOST=${REDIS_HOST:-redis}
+  - REDIS_PORT=${REDIS_PORT:-6379}
+  - REDIS_CLIENT=${REDIS_CLIENT:-phpredis}
+  - COMPOSER_AUTH=${GITHUB_TOKEN:+{\"github-oauth\":{\"github.com\":\"${GITHUB_TOKEN}\"}}}
+
+services:
+  app:
+    build: *php-build
+    container_name: feedbacker-app
+    restart: unless-stopped
+    env_file:
+      - .env-common
+      - .env
+    volumes:
+      - ../laravel:/var/www
+    depends_on:
+      pgsql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment: *app-environment
+    networks:
+      - feedbacker
+
+  # ── Queue worker ──
+  #
+  # Notifications are queued so a public submission never waits on SMTP. Same
+  # image as `app`, different command.
+  queue-worker:
+    build: *php-build
+    container_name: feedbacker-queue
+    restart: unless-stopped
+    command: >
+      php artisan queue:work
+      --tries=3 --backoff=10 --max-time=3600 --verbose
+    env_file:
+      - .env-common
+      - .env
+    volumes:
+      - ../laravel:/var/www
+    depends_on:
+      pgsql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment: *app-environment
+    networks:
+      - feedbacker
+
+  # ── Node (frontend build tooling, on-demand only) ──
+  node:
+    image: node:22-alpine
+    container_name: feedbacker-node
+    working_dir: /var/www
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      - HOME=/tmp
+      - npm_config_cache=/tmp/.npm
+    volumes:
+      - ../laravel:/var/www
+    profiles:
+      - tools
+    networks:
+      - feedbacker
+
+  nginx:
+    image: nginx:alpine
+    container_name: feedbacker-nginx
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - ../laravel:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - feedbacker
+
+  widget-server:
+    build:
+      context: ..
+      dockerfile: docker/go/Dockerfile
+    container_name: feedbacker-widget
+    restart: unless-stopped
+    ports:
+      - "${WIDGET_PORT:-8081}:8080"
+    depends_on:
+      pgsql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgres://feedbacker:secret@pgsql:5432/feedbacker?sslmode=disable}
+      - REDIS_URL=${REDIS_URL:-redis:6379}
+      - SERVER_PORT=8080
+    networks:
+      - feedbacker
+
+  pgsql:
+    image: postgres:15-alpine
+    container_name: feedbacker-pgsql
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DATABASE:-feedbacker}
+      - POSTGRES_USER=${DB_USERNAME:-feedbacker}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-secret}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-feedbacker}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - feedbacker
+
+  redis:
+    image: redis:7-alpine
+    container_name: feedbacker-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - feedbacker
+
+  # ── Mail (local development) ──
+  #
+  # Catches everything the application sends so notifications can be read
+  # without configuring SMTP. The app talks to it over SMTP on the compose
+  # network; the UI is on 8025.
+  mailpit:
+    image: ${MAILPIT_IMAGE:-axllent/mailpit:latest}
+    container_name: feedbacker-mailpit
+    restart: unless-stopped
+    ports:
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+    networks:
+      - feedbacker
+
+  # ── MinIO (S3-compatible object storage) ──
+  #
+  # Image note: upstream `minio/minio` was withdrawn from Docker Hub, and the
+  # Bitnami catalog moved to `bitnamilegacy`. Swap this back if upstream
+  # republishes; nothing else depends on the image name.
+  minio:
+    image: ${MINIO_IMAGE:-bitnamilegacy/minio:latest}
+    container_name: feedbacker-minio
+    restart: unless-stopped
+    # The Bitnami image runs as uid 1001. As root its entrypoint can chown the
+    # data volume before dropping privileges, which a fresh named volume needs.
+    user: root
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      - MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY:-minioadmin}
+      # Created on first boot; `minio-init` then makes it publicly readable.
+      - MINIO_DEFAULT_BUCKETS=${AWS_BUCKET:-feedbacker}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+    networks:
+      - feedbacker
+
+  # ── MinIO bootstrap (one-shot) ──
+  #
+  # Uploaded logos and avatars are public assets, so the bucket is set to
+  # anonymous download rather than handing out presigned URLs. Runs once per
+  # `up` and exits.
+  minio-init:
+    image: ${MINIO_IMAGE:-bitnamilegacy/minio:latest}
+    container_name: feedbacker-minio-init
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >
+        mc alias set local http://minio:9000 "$$MINIO_ROOT_USER" "$$MINIO_ROOT_PASSWORD" >/dev/null &&
+        mc anonymous set download "local/$$AWS_BUCKET" &&
+        echo "bucket $$AWS_BUCKET is publicly readable"
+    environment:
+      - MINIO_ROOT_USER=${AWS_ACCESS_KEY_ID:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${AWS_SECRET_ACCESS_KEY:-minioadmin}
+      - AWS_BUCKET=${AWS_BUCKET:-feedbacker}
+    restart: "no"
+    networks:
+      - feedbacker
+
+networks:
+  feedbacker:
+    driver: bridge
+
+volumes:
+  pgdata:
+  minio_data:
