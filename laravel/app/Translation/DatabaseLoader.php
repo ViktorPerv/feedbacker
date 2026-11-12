@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Translation;
 
 use App\Models\Translation;
@@ -37,12 +39,9 @@ class DatabaseLoader extends FileLoader
     }
 
     /**
-     * @param  string  $locale
-     * @param  string  $group
-     * @param  string|null  $namespace
      * @return array<string, mixed>
      */
-    public function load($locale, $group, $namespace = null)
+    public function load($locale, $group, $namespace = null): array
     {
         $this->syncVersion();
 

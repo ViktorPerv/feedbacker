@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use App\Models\Language;
@@ -11,8 +13,6 @@ class HandleInertiaRequests extends Middleware
 {
     /**
      * The root template that is loaded on the first page visit.
-     *
-     * @var string
      */
     protected $rootView = 'app';
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\CollectionPageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LocaleController;
@@ -51,7 +53,7 @@ Route::get('locale/{locale}', LocaleController::class)->name('locale.switch');
 
 // ── Authenticated ──
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('spaces/{space}/testimonials', [TestimonialController::class, 'index'])

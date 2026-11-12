@@ -193,7 +193,7 @@ class UploadTest extends TestCase
             ->post(route('spaces.logo.store', $space->slug), [
                 'logo' => $this->png(
                     UploadImageRequest::MAX_DIMENSION + 200,
-                    UploadImageRequest::MAX_DIMENSION + 200,
+                    1,
                 ),
             ])
             ->assertSessionHasErrors('logo');

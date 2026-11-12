@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Enums\TestimonialStatusEnum;
 use App\Http\Requests\StorePublicTestimonialRequest;
 use App\Models\Space;
+use App\Models\Testimonial;
 use App\Notifications\NewTestimonialNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Inertia\Response;
+use Throwable;
 
 /**
  * The public, unauthenticated testimonial collection page.
@@ -77,7 +81,7 @@ class CollectionPageController extends Controller
      * Wrapped in a guard because a submission must succeed even if the
      * notification cannot be dispatched.
      */
-    private function notifyOwner(\App\Models\Testimonial $testimonial): void
+    private function notifyOwner(Testimonial $testimonial): void
     {
         $owner = $testimonial->space?->user;
 
@@ -87,7 +91,7 @@ class CollectionPageController extends Controller
 
         try {
             Notification::send($owner, new NewTestimonialNotification($testimonial));
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             report($exception);
         }
     }

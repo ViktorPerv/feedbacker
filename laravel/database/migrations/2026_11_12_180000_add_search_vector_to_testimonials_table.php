@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -44,7 +46,7 @@ return new class extends Migration
     {
         DB::statement('DROP INDEX IF EXISTS testimonials_search_vector_index');
 
-        Schema::table('testimonials', function (Blueprint $table) {
+        Schema::table('testimonials', function (Blueprint $table): void {
             $table->dropColumn('search_vector');
         });
     }

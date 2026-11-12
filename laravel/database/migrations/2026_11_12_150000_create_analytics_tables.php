@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +17,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('widget_views', function (Blueprint $table) {
+        Schema::create('widget_views', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->foreignUuid('space_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('testimonial_id')->nullable()->constrained()->nullOnDelete();
@@ -27,7 +29,7 @@ return new class extends Migration
             $table->index(['space_id', 'viewed_at']);
         });
 
-        Schema::create('testimonial_clicks', function (Blueprint $table) {
+        Schema::create('testimonial_clicks', function (Blueprint $table): void {
             $table->bigIncrements('id');
             $table->foreignUuid('space_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('testimonial_id')->constrained()->cascadeOnDelete();

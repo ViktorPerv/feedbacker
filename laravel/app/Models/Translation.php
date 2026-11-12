@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -75,7 +77,7 @@ class Translation extends Model
     {
         $like = '%'.str_replace(['%', '_'], ['\%', '\_'], $term).'%';
 
-        return $query->where(function (Builder $inner) use ($like) {
+        return $query->where(function (Builder $inner) use ($like): void {
             $inner->where('key', 'ilike', $like)
                 ->orWhere('value', 'ilike', $like);
         });

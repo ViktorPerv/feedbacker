@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Translation;
 
 use App\Models\Translation;
@@ -24,12 +26,7 @@ class DatabaseTranslator extends Translator
      */
     protected ?int $catalogueVersion = null;
 
-    /**
-     * @param  string  $namespace
-     * @param  string  $group
-     * @param  string  $locale
-     */
-    public function load($namespace, $group, $locale)
+    public function load($namespace, $group, $locale): void
     {
         $current = Translation::version();
 

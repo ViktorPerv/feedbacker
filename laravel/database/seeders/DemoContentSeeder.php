@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\TestimonialStatusEnum;
 use App\Enums\WidgetLayoutEnum;
 use App\Models\Space;
 use App\Models\Testimonial;
+use App\Models\User;
 use App\Models\Widget;
 use Illuminate\Database\Seeder;
 
@@ -92,8 +95,8 @@ class DemoContentSeeder extends Seeder
             ['slug' => 'admin-space'],
             [
                 'name' => 'Admin Space',
-                'user_id' => \App\Models\User::where('email', 'admin@feedbacker.test')->value('id')
-                    ?? \App\Models\User::query()->value('id'),
+                'user_id' => User::where('email', 'admin@feedbacker.test')->value('id')
+                    ?? User::query()->value('id'),
                 'is_active' => true,
             ],
         );

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Enums\RoleEnum;
@@ -52,7 +54,7 @@ class UserFactory extends Factory
      */
     public function admin(): static
     {
-        return $this->afterCreating(function (User $user) {
+        return $this->afterCreating(function (User $user): void {
             $user->syncRoles([RoleEnum::Admin->value]);
         });
     }
@@ -64,7 +66,7 @@ class UserFactory extends Factory
      */
     public function member(): static
     {
-        return $this->afterCreating(function (User $user) {
+        return $this->afterCreating(function (User $user): void {
             $user->syncRoles([RoleEnum::User->value]);
         });
     }
@@ -74,7 +76,7 @@ class UserFactory extends Factory
      */
     public function roleless(): static
     {
-        return $this->afterCreating(function (User $user) {
+        return $this->afterCreating(function (User $user): void {
             $user->syncRoles([]);
         });
     }
